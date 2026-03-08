@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>{% block title %}Mój blog{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Mój blog</h1>
+        <nav>
+            <a href="/">Strona główna</a>
+            <a href="/admin/">Admin</a>
+            {% if user.is_authenticated %}
+              User: {{ request.user.username }}
+            {% else %}
+              <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </nav>
+        <hr>
+      {% if user.is_authenticated %}
+        <form action="{% url 'logout'%}" method="post">
+          {%csrf_token%}
+          <button type="submit">Log out</button>
+        </form>
+      {% endif %}
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
