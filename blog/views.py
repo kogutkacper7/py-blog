@@ -20,11 +20,14 @@ class PostDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = CommentForm
+        context["form"] = CommentForm()
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+
+        if not request.user.is_authenticated:
+            return redirect("login")
 
         form = CommentForm(request.POST)
 
